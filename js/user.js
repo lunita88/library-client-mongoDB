@@ -1,6 +1,6 @@
 var user = {
     containerId: 'userAuth',
-    apiServer: 'http://185.39.3.120:8001',
+    apiServer: API_URL+':'+API_PORT,
     loginTemplate: `
         <div class="userAuth">
             <div class="userForm">

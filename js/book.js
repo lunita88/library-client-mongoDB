@@ -1,6 +1,6 @@
 var book = {
     containerId: 'bookAuth',
-    apiServer: 'http://185.39.3.120:8001',
+    apiServer: API_URL+':'+API_PORT,
     firstPageTemplate: `
     <div class="bookAuth1 center">
       <div class="userForm">
@@ -112,7 +112,7 @@ var book = {
         }
       };
 
-    xhttp.open("POST", "http://185.39.3.120:8001/book", true);
+    xhttp.open("POST", this.apiServer + "/book/", true);
     xhttp.setRequestHeader("Authorization", "Bearer: " + user.getToken());
     xhttp.send(form);
   },
@@ -156,7 +156,7 @@ var book = {
       },
       getBooks: function () {
         const xhttp = new XMLHttpRequest();
-        //xhttp.open("GET", "http://185.39.3.120:8001/book", false);
+        
         xhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
                 console.log(xhttp.responseText);
@@ -169,7 +169,7 @@ var book = {
                // Typical action to be performed when the document is ready:
             }
         };
-        xhttp.open("GET", "http://185.39.3.120:8001/books/", true);
+        xhttp.open("GET", this.apiServer + "/books/", true);
         xhttp.send();
     },
     /* template for getBook and edit and save edit*/
@@ -230,7 +230,7 @@ var book = {
         alert("please check isbn");
         return;
       }
-      var imgPath = 'http://185.39.3.120:8001/';
+      var imgPath = book.apiServer;
       const xhttp = new XMLHttpRequest();
       xhttp.onreadystatechange = function() {
           if(this.readyState==4 && this.status==200) {
@@ -256,7 +256,7 @@ var book = {
                 user.exitAuthAndMsg('book is found.');
         }      
       }
-      xhttp.open("GET", "http://185.39.3.120:8001/book/" + isbn, true);
+      xhttp.open("GET", this.apiServer + "/book/" + isbn, true);
       xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
       xhttp.send();
     },
@@ -279,7 +279,7 @@ deleteBook: function() {
               }
           
         }
-        xhttp.open("DELETE", "http://185.39.3.120:8001/book/" + isbn, true);
+        xhttp.open("DELETE", this.apiServer + "/book/" + isbn, true);
         xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
         xhttp.setRequestHeader("Authorization", "Bearer: " + user.getToken());
         xhttp.send();
@@ -290,7 +290,7 @@ saveEditBook: function () {
         user.showLogin();
         return;
       }
-      var imgPath = 'http://185.39.3.120:8001/';
+      var imgPath = book.apiServer;
       var form = new FormData();
       var img = document.querySelector('[name="book_img"]');
       console.log("img: " + img);
@@ -322,7 +322,7 @@ saveEditBook: function () {
             }
            
         };
-        xhttp.open("PUT", "http://185.39.3.120:8001/book/" + document.querySelector('[name="isbn-get"]').value, true);
+        xhttp.open("PUT", this.apiServer + "/book/" + document.querySelector('[name="isbn-get"]').value, true);
         xhttp.setRequestHeader("Authorization", "Bearer: " + user.getToken());
         xhttp.send(form);
     },
